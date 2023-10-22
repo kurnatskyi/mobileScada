@@ -1,0 +1,665 @@
+<!doctype html>
+<html lang="en"  data-bs-theme="dark">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>mScada</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+  </head>
+  <body>
+    <div class="container mt-2">
+      <div class="row">
+        <div class="col-sm-1 col-lg-2"></div>
+        <div class="col-sm-10 col-lg-8 mb-2">
+          <nav>
+            <div class="nav nav-tabs nav-justified" id="maintab">
+              <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" aria-controls="nav-home" aria-selected="true">ГОЛОВНА</button>
+              <button class="nav-link" data-bs-toggle="tab" data-bs-target="#nav-log" type="button" aria-controls="nav-log" aria-selected="false">ЖУРНАЛ</button>
+              <button class="nav-link" data-bs-toggle="tab" data-bs-target="#nav-charts" type="button" aria-controls="nav-charts" aria-selected="false">ГРАФІКИ</button>
+              <button class="nav-link d-flex justify-content-center align-items-center" data-bs-toggle="tab" data-bs-target="#nav-setting" type="button" aria-controls="nav-setting" aria-selected="false">
+                <svg class="icon">
+                  <use xlink:href="#svg__gear"></use>
+                </svg>
+              </button>
+            </div>
+          </nav>
+          <div class="tab-content" id="maintabContect">
+            <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
+              <div class="card mt-2">
+                <div class="card-body mb-2">
+                  <div class="row">
+                    <div id="widgetmain">
+                      <div class="row d-none main__header">
+                        <div class="col-2 mt-2">
+                          <button type="button" class="btn main__header__button-left">
+                            <svg class="icon">
+                              <use xlink:href="#svg__arrow-left"></use>
+                            </svg>
+                          </button>
+                        </div>
+                        <div class="col-8 mt-2 text-center">
+                          <strong class="d-none main__header__page-count"></strong>
+                        </div>
+                        <div class="col-2 mt-2">
+                          <button type="button" class="btn main__header__button-right">
+                            <svg class="icon">
+                              <use xlink:href="#svg__arrow-right"></use>
+                            </svg>
+                          </button>
+                        </div>
+                        <hr class="mt-2 mb-0">
+                      </div>
+                      <div class="row main__sortable">
+                      </div>
+                    </div>
+                    <div class="collapse" id="widgetswindow">
+                      <div class="row">
+                        <div id="widgets">
+                        </div>
+                        <div class="row mx-0 px-0 main__edit__widgets-sandbox">
+                          <hr class="mt-2 mb-0">
+                          <div class="col-6 mt-2">
+                            <select class="form-select form-select-sm" id="widgetitem">
+                              <option value="1">Індикатор</option>
+                              <option value="2">Інд. з надп.</option>
+                              <option value="9">Інд. з надп. (біт)</option>
+                              <option value="3">Кнопка</option>
+                              <option value="4">Завдання</option>
+                              <option value="5">Значення рег.</option>
+                              <option value="8">Дінам. надпис</option>
+                              <option value="6">Надпис</option>
+                              <option value="7">Гор. лінія</option>
+                            </select>
+                          </div>
+                          <div class="col-2 mt-2">
+                            <button type="button" class="btn" id="addwidget">
+                              <svg class="icon">
+                                <use xlink:href="#svg__plus"></use>
+                              </svg>
+                            </button>
+                          </div>
+                          <div class="col-2 mt-2">
+                            <button type="button" class="btn main__edit__remove-page">
+                              <svg class="icon">
+                                <use xlink:href="#svg__page-cross"></use>
+                              </svg>
+                            </button>
+                          </div>
+                          <div class="col-2 mt-2">
+                            <button type="button" class="btn main__edit__add-page">
+                              <svg class="icon">
+                                <use xlink:href="#svg__page-plus"></use>
+                              </svg>
+                            </button>
+                          </div>
+                        </div>
+                      </div> 
+                    </div>
+                    <hr class="mt-2 mb-0 d-none widgetmenushow">
+                    <div class="col-2 mt-2 d-none widgetmenushow">
+                      <button type="button" class="btn collapsed" data-bs-toggle="collapse" data-bs-target="#widgetswindow" aria-expanded="false" aria-controls="widgetswindow" id="widgetopen">
+                        <svg class="icon">
+                          <use xlink:href="#svg__folder"></use>
+                        </svg>
+                      </button>
+                    </div>
+                    <div class="col-2 mt-2 d-none widgetmenushow">
+                      <input type="checkbox" class="btn-check" name="widgetswap" value="swap" id="widgetswap" autocomplete="off" disabled>
+                      <label class="btn btn-outline" for="widgetswap">
+                        <svg class="icon">
+                          <use xlink:href="#svg__swap"></use>
+                        </svg>
+                      </label>
+                    </div>
+                    <div class="col-2 mt-2 d-none widgetmenushow">
+                      <input type="checkbox" class="btn-check" name="widgetsort" value="sort" id="widgetsort" autocomplete="off">
+                      <label class="btn btn-outline" for="widgetsort">
+                        <svg class="icon">
+                          <use xlink:href="#svg__sort"></use>
+                        </svg>
+                      </label>
+                    </div>
+                    <div class="col-2 mt-2 d-none widgetmenushow">
+                      <input type="checkbox" class="btn-check" id="widgetedit" autocomplete="off">
+                      <label class="btn btn-outline" for="widgetedit">
+                        <svg class="icon">
+                          <use xlink:href="#svg__edit"></use>
+                        </svg>
+                      </label>
+                    </div>
+                    <div class="col-2 mt-2 d-none widgetmenushow">
+                      <button type="button" class="btn reboot">
+                        <svg class="icon">
+                          <use xlink:href="#svg__toggle"></use>
+                        </svg>
+                      </button>
+                    </div>
+                    <div class="col-2 mt-2 d-none widgetmenushow">
+                      <button type="button" class="btn" id="savewidgets">
+                        <svg class="icon">
+                          <use xlink:href="#svg__save"></use>
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="tab-pane fade" id="nav-log" aria-labelledby="nav-log-tab" tabindex="0">
+              <div class="card mt-2">
+                <div class="card-body mb-2">
+                  <div class="row log__main">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="tab-pane fade" id="nav-charts" aria-labelledby="nav-charts-tab" tabindex="0">
+              <div class="card mt-2" id="charts__main">
+                <div class="mt-2" id="charts_chart"></div>
+                <div class="card-body mb-2">
+                  <div class="row">
+                    <div class="col-4 mt-2">
+                      <select class="form-select form-select-sm" id="charts__menu">
+                        <option value="" disabled>CHART</option>
+                      </select> 
+                    </div>
+                    <div class="col-2 mt-2">
+                      <button type="button" class="btn" id="charts__legend-up">
+                        <svg class="icon">
+                          <use xlink:href="#svg__arrow-up"></use>
+                        </svg>
+                      </button>
+                    </div>
+                    <div class="col-2 mt-2">
+                      <button type="button" class="btn" id="charts__legend-down">
+                        <svg class="icon">
+                          <use xlink:href="#svg__arrow-down"></use>
+                        </svg>
+                      </button>
+                    </div>
+                    <div class="col-2 mt-2">
+                      <button type="button" class="btn" id="back">
+                        <svg class="icon">
+                          <use xlink:href="#svg__arrow-left"></use>
+                        </svg>
+                      </button>
+                    </div>
+                    <div class="col-2 mt-2">
+                      <button type="button" class="btn" id="forward">
+                        <svg class="icon">
+                          <use xlink:href="#svg__arrow-right"></use>
+                        </svg>
+                      </button>
+                    </div>
+                    <div class="col-4 mt-2">
+                      <input type="time" placeholder="Введіть значення" class="form-control form-control-sm text-center" id="fromtime">
+                    </div>
+                    <div class="col-4 mt-2">
+                      <input type="time" placeholder="Введіть значення" class="form-control form-control-sm text-center" id="totime">
+                    </div>
+                    <div class="col-2 mt-2">
+                      <button type="button" class="btn" id="interval">
+                        <svg class="icon">
+                          <use xlink:href="#svg__arrow-left-right"></use>
+                        </svg> 
+                      </button>
+                    </div>
+                    <div class="col-2 mt-2">
+                      <button type="button" class="btn" id="play">
+                        <svg class="icon">
+                          <use xlink:href="#svg__arrow-right-brocket"></use>
+                        </svg> 
+                      </button>
+                    </div>
+                    <div class="col-2 mt-2">
+                      <input type="checkbox" class="btn-check" id="savelegend" autocomplete="off">
+                      <label class="btn btn-outline" for="savelegend">
+                        <svg class="icon">
+                          <use xlink:href="#svg__eye"></use>
+                        </svg> 
+                      </label>
+                    </div>
+                    <div class="col-2 mt-2">
+                      <input type="checkbox" class="btn-check" id="shared" autocomplete="off">
+                      <label class="btn btn-outline" for="shared">
+                        <svg class="icon">
+                          <use xlink:href="#svg__info"></use>
+                        </svg> 
+                      </label>
+                    </div>
+                    <div class="col-2 mt-2">
+                      <button class="btn" type="button" id="getarchive">
+                        <svg class="icon">
+                          <use xlink:href="#svg__chart"></use>
+                        </svg>
+                      </button>
+                    </div>
+                    <div class="col-2 mt-2">
+                      <button class="btn" type="button" id="clean">
+                        <svg class="icon">
+                          <use xlink:href="#svg__erase"></use>
+                        </svg>
+                      </button>
+                    </div>
+                    <div class="col-4 mt-2">
+                      <select class="form-select form-select-sm" id="timespan">
+                        <option value="60000">1 ХВ</option>
+                        <option value="300000">5 ХВ</option>
+                        <option value="600000">10 ХВ</option>
+                        <option value="1800000">30 ХВ</option>
+                        <option value="3600000">1 ГОД</option>
+                        <option value="10800000">3 ГОД</option>
+                        <option value="21600000">6 ГОД</option>
+                        <option value="43200000">12 ГОД</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div id="chartsd">
+                <ul class="list-group mt-2 dirlist">
+                  <li class="list-group-item py-1">
+                    <div class="row">
+                      <label class="col-10 col-form-label form-control-sm my-1 dir">/archive</label>
+                      <input type="text" class="d-none value" value="/archive">
+                      <div class="col-2 my-1">
+                        <button type="button" class="btn backfromhide">
+                          <svg class="icon">
+                            <use xlink:href="#svg__arrow-left"></use>
+                          </svg>
+                        </button>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="tab-pane fade mt-2" id="nav-setting" aria-labelledby="nav-setting-tab" tabindex="0">
+              <div class="accordion" id="accordionExample">
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="headingOne">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#netsetting" aria-expanded="false" aria-controls="netsetting">
+                      НАЛАШТУВАННЯ ПРИЛАДУ
+                    </button>
+                  </h2>
+                  <div id="netsetting" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                    <div class="accordion-body mb-2 py-0">
+                      <div class="row">
+                        <div class="col-4 mt-2">
+                          <label class="col-form-label form-control-sm px-0">SSID:</label>
+                        </div>
+                        <div class="col-8 mt-2">
+                          <input type="text" placeholder="Введіть значення" class="form-control form-control-sm text-center" id="ssid">
+                        </div>
+                        <div class="col-4 mt-2">
+                          <label class="col-form-label form-control-sm px-0">PASSWORD:</label>
+                        </div>
+                        <div class="col-8 mt-2">
+                          <input type="password" placeholder="Введіть значення" class="form-control form-control-sm text-center" id="password">
+                        </div>
+                        <div class="col-4 mt-2">
+                          <label class="col-form-label form-control-sm px-0">WiFi mode:</label>
+                        </div>
+                        <div class="col-4 mt-2">
+                          <input type="radio" class="btn-check" name="wifimode" value="sta" id="sta" autocomplete="off">
+                          <label class="btn btn-outline" for="sta">STA</label>
+                        </div>
+                        <div class="col-4 mt-2">
+                          <input type="radio" class="btn-check" name="wifimode" value="ap" id="ap" autocomplete="off" checked>
+                          <label class="btn btn-outline" for="ap">AP</label>
+                        </div>
+                        <div class="col-4 mt-2">
+                          <label class="col-form-label form-control-sm px-0">AP name:</label>
+                        </div>
+                        <div class="col-8 mt-2">
+                          <input type="text" placeholder="Введіть значення" class="form-control form-control-sm text-center form__validator" id="apname">
+                        </div>
+                        <div class="col-4 mt-2">
+                          <label class="col-form-label form-control-sm px-0">AP password:</label>
+                        </div>
+                        <div class="col-8 mt-2">
+                          <input type="password" placeholder="Введіть значення" class="form-control form-control-sm text-center" id="appassword">
+                        </div>
+                        <div class="col-4 mt-2">
+                          <label class="col-form-label form-control-sm px-0">IP mode:</label>
+                        </div>
+                        <div class="col-4 mt-2">
+                          <input type="radio" class="btn-check" name="ipmode" value="dhcp" id="ipdhcp" autocomplete="off" checked>
+                          <label class="btn btn-outline" for="ipdhcp">DHCP</label>
+                        </div>
+                        <div class="col-4 mt-2">
+                          <input type="radio" class="btn-check" name="ipmode" value="static" id="ipstatic" autocomplete="off">
+                          <label class="btn btn-outline" for="ipstatic">STATIC</label>
+                        </div>
+                        <div class="col-4 mt-2">
+                          <label class="col-form-label form-control-sm px-0">DNS name:</label>
+                        </div>
+                        <div class="col-8 mt-2">
+                          <input type="text" placeholder="Введіть значення" class="form-control form-control-sm text-center form__validator" id="dns">
+                        </div>
+                        <div class="col-4 mt-2">
+                          <label class="col-form-label form-control-sm px-0">IP adress:</label>
+                        </div>
+                        <div class="col-8">
+                          <input type="text" placeholder="-" class="form-control form-control-sm text-center mt-2" id="ipadress" disabled>
+                        </div>
+                        <div class="col-4 mt-2">
+                          <label class="col-form-label form-control-sm px-0">Local IP:</label>
+                        </div>
+                        <div class="col-8 mt-2">
+                          <input type="text" placeholder="Введіть значення" class="form-control text-center form-control-sm form__validator" id="localip">
+                        </div>
+                        <div class="col-4 mt-2">
+                          <label class="col-form-label form-control-sm px-0">Gateway:</label>
+                        </div>
+                        <div class="col-8 mt-2">
+                          <input type="text" placeholder="Введіть значення" class="form-control text-center form-control-sm form__validator" id="gateway">
+                        </div>
+                        <div class="col-4 mt-2">
+                          <label class="col-form-label form-control-sm px-0">Subnet:</label>
+                        </div>
+                        <div class="col-8 mt-2">
+                          <input type="text" placeholder="Введіть значення" class="form-control text-center form-control- form__validator" id="subnet">
+                        </div>
+                        <hr class="mt-2 mb-0">
+                        <div class="col-4 mt-2">
+                          <label class="col-form-label form-control-sm px-0">ModBus:</label>
+                        </div>
+                        <div class="col-4 mt-2">
+                          <select class="form-select form-select-sm" id="speed">
+                            <option value="2400">2400</option>
+                            <option value="4800">4800</option>
+                            <option value="9600">9600</option>
+                            <option value="14400">14400</option>
+                            <option value="19200">19200</option>
+                            <option value="38400">38400</option>
+                            <option value="57600">57600</option>
+                            <option value="115200">115200</option>
+                          </select>
+                        </div>
+                        <div class="col-4 mt-2">
+                          <input type="text" placeholder="-" class="form-control form-control-sm text-center" id="cycletime" disabled>
+                        </div>
+                        <hr class="mt-2 mb-0">
+                        <div class="col-4 mt-2">
+                          <label class="col-3 col-form-label form-control-sm px-0">Архівування:</label>
+                        </div>
+                        <div class="col-8 mt-2">
+                          <input type="number" inputmode="numeric" placeholder="Введіть значення" class="form-control form-control-sm text-center form__validator" id="archive">
+                        </div>
+                        <hr class="mt-2 mb-0">
+                        <div class="col-4 mt-2">
+                          <label class="col-form-label form-control-sm px-0">Поточний час:</label>
+                        </div>
+                        <div class="col-8 mt-2">
+                          <input type="text" placeholder="-" class="form-control form-control-sm text-center" id="time" disabled>
+                        </div>
+                        <hr class="mt-2 mb-0">
+                        <div class="col-3 mt-2">
+                          <button type="button" class="btn settime">
+                            <svg class="icon">
+                              <use xlink:href="#svg__clock"></use>
+                            </svg>
+                          </button>
+                        </div>
+                        <div class="col-3 mt-2">
+                          <button type="button" class="btn reboot">
+                            <svg class="icon">
+                              <use xlink:href="#svg__toggle"></use>
+                            </svg>
+                          </button>
+                        </div>
+                        <div class="col-3 mt-2">
+                          <button type="button" class="btn savesetting">
+                            <svg class="icon">
+                              <use xlink:href="#svg__save"></use>
+                            </svg>
+                          </button>
+                        </div>
+                        <div class="col-3 mt-2">
+                          <input type="checkbox" class="btn-check" id="widgetmenu" autocomplete="off">
+                          <label class="btn btn-outline" for="widgetmenu">
+                            <svg class="icon">
+                              <use xlink:href="#svg__setting"></use>
+                            </svg>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="headingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                      НАЛАШТУВАННЯ ПАРАМЕТРІВ
+                    </button>
+                  </h2>
+                  <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                    <div class="accordion-body py-0 mb-2">
+                      <div class="mt-2" id="devices"></div>
+                      <div class="row">
+                        <div class="col-4">
+                          <button type="button" class="btn" id="add">
+                            <svg class="icon">
+                              <use xlink:href="#svg__plus"></use>
+                            </svg>
+                          </button>
+                        </div>
+                        <div class="col-4">
+                          <button type="button" class="btn reboot">
+                            <svg class="icon">
+                              <use xlink:href="#svg__toggle"></use>
+                            </svg>
+                          </button>
+                        </div>
+                        <div class="col-4">
+                          <button type="button" class="btn" id="saveparametres">
+                            <svg class="icon">
+                              <use xlink:href="#svg__save"></use>
+                            </svg>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="headingThree">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                      МЕНЕДЖЕР ПРОЄКТІВ
+                    </button>
+                  </h2>
+                  <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                    <div class="accordion-body py-0 mb-2" id="setting__project">
+                      <div class="row">
+                        <div class="col-8 mt-2">
+                          <input type="text" placeholder="Введіть назву проєкту" class="form-control text-center form-control-sm form__validator" id="projectname">
+                        </div>
+                        <div class="col-2 mt-2">
+                          <button type="button" class="btn" id="clearproject">
+                            <svg class="icon">
+                              <use xlink:href="#svg__file-new"></use>
+                            </svg>
+                          </button>
+                        </div>
+                        <div class="col-2 mt-2">
+                          <button type="button" class="btn" id="saveproject">
+                            <svg class="icon">
+                              <use xlink:href="#svg__save"></use>
+                            </svg>
+                          </button>
+                        </div>
+                        <div class="col-8 mt-2">
+                          <select class="form-select form-select-sm" id="projectlist">
+                          </select>
+                        </div>
+                        <div class="col-2 mt-2">
+                          <button type="button" class="btn" id="projectremove">
+                            <svg class="icon">
+                              <use xlink:href="#svg__trash"></use>
+                            </svg>
+                          </button>
+                        </div>
+                        <div class="col-2 mt-2">
+                          <button type="button" class="btn" id="loadproject">
+                            <svg class="icon">
+                              <use xlink:href="#svg__file-load"></use>
+                            </svg>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="headingFourth">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFourth" aria-expanded="false" aria-controls="collapseFourth">
+                      НАЛАШТУВАННЯ ГРАФІКІВ
+                    </button>
+                  </h2>
+                  <div id="collapseFourth" class="accordion-collapse collapse" aria-labelledby="headingFourth" data-bs-parent="#accordionExample">
+                    <div class="accordion-body py-0 mb-2">
+                      <div class="row">
+                        <div class="mt-2" id="setting__charts">
+                        </div>
+                        <div class="col-4">
+                          <button type="button" class="btn" id="setting__charts_add__new-chart">
+                            <svg class="icon">
+                              <use xlink:href="#svg__plus"></use>
+                            </svg>
+                          </button>
+                        </div>
+                        <div class="col-4">
+                          <button type="button" class="btn reboot">
+                            <svg class="icon">
+                              <use xlink:href="#svg__toggle"></use>
+                            </svg>
+                          </button>
+                        </div>
+                        <div class="col-4">
+                          <button type="button" class="btn" id="setting__charts__save-charts">
+                            <svg class="icon">
+                              <use xlink:href="#svg__save"></use>
+                            </svg>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-1 col-lg-2"></div>
+      </div>
+    </div>
+    <script src="js/jquery-3.6.3.min.js"></script>
+    <script src="js/Sortable.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/highcharts.js"></script>
+    <script src="js/broken-axis.js"></script>
+    <script src="js/script.js"></script>
+  </body>
+</html>
+
+<svg >
+  <symbol id="svg__folder" viewBox="0 0 576 512">
+    <path d="M88.7 223.8L0 375.8V96C0 60.7 28.7 32 64 32H181.5c17 0 33.3 6.7 45.3 18.7l26.5 26.5c12 12 28.3 18.7 45.3 18.7H416c35.3 0 64 28.7 64 64v32H144c-22.8 0-43.8 12.1-55.3 31.8zm27.6 16.1C122.1 230 132.6 224 144 224H544c11.5 0 22 6.1 27.7 16.1s5.7 22.2-.1 32.1l-112 192C453.9 474 443.4 480 432 480H32c-11.5 0-22-6.1-27.7-16.1s-5.7-22.2 .1-32.1l112-192z"/>
+  </symbol>
+  <symbol id="svg__toggle" viewBox="0 0 512 512">
+    <path d="M288 32c0-17.7-14.3-32-32-32s-32 14.3-32 32V256c0 17.7 14.3 32 32 32s32-14.3 32-32V32zM143.5 120.6c13.6-11.3 15.4-31.5 4.1-45.1s-31.5-15.4-45.1-4.1C49.7 115.4 16 181.8 16 256c0 132.5 107.5 240 240 240s240-107.5 240-240c0-74.2-33.8-140.6-86.6-184.6c-13.6-11.3-33.8-9.4-45.1 4.1s-9.4 33.8 4.1 45.1c38.9 32.3 63.5 81 63.5 135.4c0 97.2-78.8 176-176 176s-176-78.8-176-176c0-54.4 24.7-103.1 63.5-135.4z"/>
+  </symbol>
+  <symbol id="svg__arrow-up" viewBox="0 0 320 512">
+    <path d="M182.6 9.4c-12.5-12.5-32.8-12.5-45.3 0l-128 128c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L128 109.3V480c0 17.7 14.3 32 32 32s32-14.3 32-32V109.3l73.4 73.4c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3l-128-128z"></path>
+  </symbol>
+  <symbol id="svg__arrow-down" viewBox="0 0 320 512">
+    <path d="M137.4 502.6c12.5 12.5 32.8 12.5 45.3 0l128-128c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 402.7 192 32c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 370.7L54.6 329.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l128 128z"></path>
+  </symbol>
+  <symbol id="svg__plus" viewBox="-19.81 0 448 512">
+    <path d="M240 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H32c-17.7 0-32 14.3-32 32s14.3 32 32 32H176V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H384c17.7 0 32-14.3 32-32s-14.3-32-32-32H240V80z"/>
+  </symbol>
+  <symbol id="svg__cross" viewBox="0 0 320 512">
+    <path d="M310.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L160 210.7 54.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L114.7 256 9.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 301.3 265.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L205.3 256 310.6 150.6z"></path>
+  </symbol>
+  <symbol  id="svg__clock" viewBox="0 0 512 512">
+    <path d="M256 0a256 256 0 1 1 0 512A256 256 0 1 1 256 0zM232 120V256c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2V120c0-13.3-10.7-24-24-24s-24 10.7-24 24z"/>
+  </symbol>
+  <symbol id="svg__gear" viewBox="0 0 512 512">
+    <path d="M481.9 166.6c3.2 8.7 .5 18.4-6.4 24.6l-30.9 28.1c-7.7 7.1-11.4 17.5-10.9 27.9c.1 2.9 .2 5.8 .2 8.8s-.1 5.9-.2 8.8c-.5 10.5 3.1 20.9 10.9 27.9l30.9 28.1c6.9 6.2 9.6 15.9 6.4 24.6c-4.4 11.9-9.7 23.3-15.8 34.3l-4.7 8.1c-6.6 11-14 21.4-22.1 31.2c-5.9 7.2-15.7 9.6-24.5 6.8l-39.7-12.6c-10-3.2-20.8-1.1-29.7 4.6c-4.9 3.1-9.9 6.1-15.1 8.7c-9.3 4.8-16.5 13.2-18.8 23.4l-8.9 40.7c-2 9.1-9 16.3-18.2 17.8c-13.8 2.3-28 3.5-42.5 3.5s-28.7-1.2-42.5-3.5c-9.2-1.5-16.2-8.7-18.2-17.8l-8.9-40.7c-2.2-10.2-9.5-18.6-18.8-23.4c-5.2-2.7-10.2-5.6-15.1-8.7c-8.8-5.7-19.7-7.8-29.7-4.6L69.1 425.9c-8.8 2.8-18.6 .3-24.5-6.8c-8.1-9.8-15.5-20.2-22.1-31.2l-4.7-8.1c-6.1-11-11.4-22.4-15.8-34.3c-3.2-8.7-.5-18.4 6.4-24.6l30.9-28.1c7.7-7.1 11.4-17.5 10.9-27.9c-.1-2.9-.2-5.8-.2-8.8s.1-5.9 .2-8.8c.5-10.5-3.1-20.9-10.9-27.9L8.4 191.2c-6.9-6.2-9.6-15.9-6.4-24.6c4.4-11.9 9.7-23.3 15.8-34.3l4.7-8.1c6.6-11 14-21.4 22.1-31.2c5.9-7.2 15.7-9.6 24.5-6.8l39.7 12.6c10 3.2 20.8 1.1 29.7-4.6c4.9-3.1 9.9-6.1 15.1-8.7c9.3-4.8 16.5-13.2 18.8-23.4l8.9-40.7c2-9.1 9-16.3 18.2-17.8C213.3 1.2 227.5 0 242 0s28.7 1.2 42.5 3.5c9.2 1.5 16.2 8.7 18.2 17.8l8.9 40.7c2.2 10.2 9.4 18.6 18.8 23.4c5.2 2.7 10.2 5.6 15.1 8.7c8.8 5.7 19.7 7.7 29.7 4.6l39.7-12.6c8.8-2.8 18.6-.3 24.5 6.8c8.1 9.8 15.5 20.2 22.1 31.2l4.7 8.1c6.1 11 11.4 22.4 15.8 34.3zM242 336a80 80 0 1 0 0-160 80 80 0 1 0 0 160z"/>
+  </symbol>
+  <symbol id="svg__swap" viewBox="0 0 512 512">
+    <path d="M0 224c0 17.7 14.3 32 32 32s32-14.3 32-32c0-53 43-96 96-96H320v32c0 12.9 7.8 24.6 19.8 29.6s25.7 2.2 34.9-6.9l64-64c12.5-12.5 12.5-32.8 0-45.3l-64-64c-9.2-9.2-22.9-11.9-34.9-6.9S320 19.1 320 32V64H160C71.6 64 0 135.6 0 224zm512 64c0-17.7-14.3-32-32-32s-32 14.3-32 32c0 53-43 96-96 96H192V352c0-12.9-7.8-24.6-19.8-29.6s-25.7-2.2-34.9 6.9l-64 64c-12.5 12.5-12.5 32.8 0 45.3l64 64c9.2 9.2 22.9 11.9 34.9 6.9s19.8-16.6 19.8-29.6V448H352c88.4 0 160-71.6 160-160z"/>
+  </symbol>
+  <symbol id="svg__sort" viewBox="0 0 512 512">
+    <path d="M403.8 34.4c12-5 25.7-2.2 34.9 6.9l64 64c6 6 9.4 14.1 9.4 22.6s-3.4 16.6-9.4 22.6l-64 64c-9.2 9.2-22.9 11.9-34.9 6.9s-19.8-16.6-19.8-29.6V160H352c-10.1 0-19.6 4.7-25.6 12.8L284 229.3 244 176l31.2-41.6C293.3 110.2 321.8 96 352 96h32V64c0-12.9 7.8-24.6 19.8-29.6zM164 282.7L204 336l-31.2 41.6C154.7 401.8 126.2 416 96 416H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H96c10.1 0 19.6-4.7 25.6-12.8L164 282.7zm274.6 188c-9.2 9.2-22.9 11.9-34.9 6.9s-19.8-16.6-19.8-29.6V416H352c-30.2 0-58.7-14.2-76.8-38.4L121.6 172.8c-6-8.1-15.5-12.8-25.6-12.8H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H96c30.2 0 58.7 14.2 76.8 38.4L326.4 339.2c6 8.1 15.5 12.8 25.6 12.8h32V320c0-12.9 7.8-24.6 19.8-29.6s25.7-2.2 34.9 6.9l64 64c6 6 9.4 14.1 9.4 22.6s-3.4 16.6-9.4 22.6l-64 64z"/>
+  </symbol>
+  <symbol id="svg__edit" viewBox="0 0 512 512">
+    <path d="M471.6 21.7c-21.9-21.9-57.3-21.9-79.2 0L362.3 51.7l97.9 97.9 30.1-30.1c21.9-21.9 21.9-57.3 0-79.2L471.6 21.7zm-299.2 220c-6.1 6.1-10.8 13.6-13.5 21.9l-29.6 88.8c-2.9 8.6-.6 18.1 5.8 24.6s15.9 8.7 24.6 5.8l88.8-29.6c8.2-2.7 15.7-7.4 21.9-13.5L437.7 172.3 339.7 74.3 172.4 241.7zM96 64C43 64 0 107 0 160V416c0 53 43 96 96 96H352c53 0 96-43 96-96V320c0-17.7-14.3-32-32-32s-32 14.3-32 32v96c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V160c0-17.7 14.3-32 32-32h96c17.7 0 32-14.3 32-32s-14.3-32-32-32H96z"/>
+  </symbol>
+  <symbol id="svg__save" viewBox="0 0 448 512">
+    <path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V173.3c0-17-6.7-33.3-18.7-45.3L352 50.7C340 38.7 323.7 32 306.7 32H64zm0 96c0-17.7 14.3-32 32-32H288c17.7 0 32 14.3 32 32v64c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V128zM224 288a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/>
+  </symbol>
+  <symbol id="svg__arrow-left" viewBox="0 0 512 512">
+    <path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l128 128c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 288 480 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-370.7 0 73.4-73.4c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-128 128z"/>
+  </symbol>
+  <symbol id="svg__arrow-right" viewBox="0 0 512 512">
+    <path d="M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-128-128c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-73.4 73.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l128-128z"/>
+  </symbol>
+  <symbol id="svg__arrow-left-right" viewBox="0 0 512 512">
+    <path d="M406.6 374.6l96-96c12.5-12.5 12.5-32.8 0-45.3l-96-96c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224l-293.5 0 41.4-41.4c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-96 96c-12.5 12.5-12.5 32.8 0 45.3l96 96c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 288l293.5 0-41.4 41.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0z"/>
+  </symbol>
+  <symbol id="svg__arrow-right-brocket" viewBox="0 0 512 512">
+    <path d="M352 96l64 0c17.7 0 32 14.3 32 32l0 256c0 17.7-14.3 32-32 32l-64 0c-17.7 0-32 14.3-32 32s14.3 32 32 32l64 0c53 0 96-43 96-96l0-256c0-53-43-96-96-96l-64 0c-17.7 0-32 14.3-32 32s14.3 32 32 32zm-9.4 182.6c12.5-12.5 12.5-32.8 0-45.3l-128-128c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L242.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l210.7 0-73.4 73.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l128-128z"/>
+  </symbol>
+  <symbol id="svg__info" viewBox="0 0 512 512"">
+    <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336h24V272H216c-13.3 0-24-10.7-24-24s10.7-24 24-24h48c13.3 0 24 10.7 24 24v88h8c13.3 0 24 10.7 24 24s-10.7 24-24 24H216c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z"/>
+  </symbol>
+  <symbol id="svg__chart" viewBox="0 0 512 512">
+    <path d="M64 64c0-17.7-14.3-32-32-32S0 46.3 0 64V400c0 44.2 35.8 80 80 80H480c17.7 0 32-14.3 32-32s-14.3-32-32-32H80c-8.8 0-16-7.2-16-16V64zm406.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L320 210.7l-57.4-57.4c-12.5-12.5-32.8-12.5-45.3 0l-112 112c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L240 221.3l57.4 57.4c12.5 12.5 32.8 12.5 45.3 0l128-128z"/>
+  </symbol>
+  <symbol id="svg__erase" viewBox="0 0 576 512">
+    <path d="M290.7 57.4L57.4 290.7c-25 25-25 65.5 0 90.5l80 80c12 12 28.3 18.7 45.3 18.7H288h9.4H512c17.7 0 32-14.3 32-32s-14.3-32-32-32H387.9L518.6 285.3c25-25 25-65.5 0-90.5L381.3 57.4c-25-25-65.5-25-90.5 0zM297.4 416H288l-105.4 0-80-80L227.3 211.3 364.7 348.7 297.4 416z"/>
+  </symbol>
+  <symbol id="svg__setting" viewBox="0 0 512 512">
+    <path d="M78.6 5C69.1-2.4 55.6-1.5 47 7L7 47c-8.5 8.5-9.4 22-2.1 31.6l80 104c4.5 5.9 11.6 9.4 19 9.4h54.1l109 109c-14.7 29-10 65.4 14.3 89.6l112 112c12.5 12.5 32.8 12.5 45.3 0l64-64c12.5-12.5 12.5-32.8 0-45.3l-112-112c-24.2-24.2-60.6-29-89.6-14.3l-109-109V104c0-7.5-3.5-14.5-9.4-19L78.6 5zM19.9 396.1C7.2 408.8 0 426.1 0 444.1C0 481.6 30.4 512 67.9 512c18 0 35.3-7.2 48-19.9L233.7 374.3c-7.8-20.9-9-43.6-3.6-65.1l-61.7-61.7L19.9 396.1zM512 144c0-10.5-1.1-20.7-3.2-30.5c-2.4-11.2-16.1-14.1-24.2-6l-63.9 63.9c-3 3-7.1 4.7-11.3 4.7H352c-8.8 0-16-7.2-16-16V102.6c0-4.2 1.7-8.3 4.7-11.3l63.9-63.9c8.1-8.1 5.2-21.8-6-24.2C388.7 1.1 378.5 0 368 0C288.5 0 224 64.5 224 144l0 .8 85.3 85.3c36-9.1 75.8 .5 104 28.7L429 274.5c49-23 83-72.8 83-130.5zM56 432a24 24 0 1 1 48 0 24 24 0 1 1 -48 0z"/>
+  </symbol>
+  <symbol id="svg__file-new" viewBox="0 0 384 512">
+    <path d="M0 64C0 28.7 28.7 0 64 0H224V128c0 17.7 14.3 32 32 32H384V448c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V64zm384 64H256V0L384 128z"/>
+  </symbol>
+  <symbol id="svg__trash" viewBox="0 0 448 512">
+    <path d="M170.5 51.6L151.5 80h145l-19-28.4c-1.5-2.2-4-3.6-6.7-3.6H177.1c-2.7 0-5.2 1.3-6.7 3.6zm147-26.6L354.2 80H368h48 8c13.3 0 24 10.7 24 24s-10.7 24-24 24h-8V432c0 44.2-35.8 80-80 80H112c-44.2 0-80-35.8-80-80V128H24c-13.3 0-24-10.7-24-24S10.7 80 24 80h8H80 93.8l36.7-55.1C140.9 9.4 158.4 0 177.1 0h93.7c18.7 0 36.2 9.4 46.6 24.9zM80 128V432c0 17.7 14.3 32 32 32H336c17.7 0 32-14.3 32-32V128H80zm80 64V400c0 8.8-7.2 16-16 16s-16-7.2-16-16V192c0-8.8 7.2-16 16-16s16 7.2 16 16zm80 0V400c0 8.8-7.2 16-16 16s-16-7.2-16-16V192c0-8.8 7.2-16 16-16s16 7.2 16 16zm80 0V400c0 8.8-7.2 16-16 16s-16-7.2-16-16V192c0-8.8 7.2-16 16-16s16 7.2 16 16z"/>
+  </symbol>
+  <symbol id="svg__file-load" viewBox="0 0 384 512">
+    <path d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM216 232V334.1l31-31c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-72 72c-9.4 9.4-24.6 9.4-33.9 0l-72-72c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l31 31V232c0-13.3 10.7-24 24-24s24 10.7 24 24z"/>
+  </symbol>
+  <symbol id="svg__pencil" viewBox="0 0 512 512">
+    <path d="M410.3 231l11.3-11.3-33.9-33.9-62.1-62.1L291.7 89.8l-11.3 11.3-22.6 22.6L58.6 322.9c-10.4 10.4-18 23.3-22.2 37.4L1 480.7c-2.5 8.4-.2 17.5 6.1 23.7s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L387.7 253.7 410.3 231zM160 399.4l-9.1 22.7c-4 3.1-8.5 5.4-13.3 6.9L59.4 452l23-78.1c1.4-4.9 3.8-9.4 6.9-13.3l22.7-9.1v32c0 8.8 7.2 16 16 16h32zM362.7 18.7L348.3 33.2 325.7 55.8 314.3 67.1l33.9 33.9 62.1 62.1 33.9 33.9 11.3-11.3 22.6-22.6 14.5-14.5c25-25 25-65.5 0-90.5L453.3 18.7c-25-25-65.5-25-90.5 0zm-47.4 168l-144 144c-6.2 6.2-16.4 6.2-22.6 0s-6.2-16.4 0-22.6l144-144c6.2-6.2 16.4-6.2 22.6 0s6.2 16.4 0 22.6z"/>
+  </symbol>
+  <symbol id="svg__check" viewBox="0 0 512 512">
+    <path d="M470.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L192 338.7 425.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/>
+  </symbol>
+  <symbol id="svg__text-height" viewBox="0 0 576 512">
+    <path d="M64 128V96h64l0 320H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H224c17.7 0 32-14.3 32-32s-14.3-32-32-32H192l0-320h64v32c0 17.7 14.3 32 32 32s32-14.3 32-32V80c0-26.5-21.5-48-48-48H160 48C21.5 32 0 53.5 0 80v48c0 17.7 14.3 32 32 32s32-14.3 32-32zM502.6 41.4c-12.5-12.5-32.8-12.5-45.3 0l-64 64c-9.2 9.2-11.9 22.9-6.9 34.9s16.6 19.8 29.6 19.8h32V352H416c-12.9 0-24.6 7.8-29.6 19.8s-2.2 25.7 6.9 34.9l64 64c12.5 12.5 32.8 12.5 45.3 0l64-64c9.2-9.2 11.9-22.9 6.9-34.9s-16.6-19.8-29.6-19.8H512V160h32c12.9 0 24.6-7.8 29.6-19.8s2.2-25.7-6.9-34.9l-64-64z"/>
+  </symbol>
+  <symbol id="svg__text-wrap" viewBox="0 0 448 512">
+    <path d="M0 64C0 46.3 14.3 32 32 32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 96 0 81.7 0 64zM192 192c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H224c-17.7 0-32-14.3-32-32zm32 96H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H224c-17.7 0-32-14.3-32-32s14.3-32 32-32zM0 448c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM127.8 268.6L25.8 347.9C15.3 356.1 0 348.6 0 335.3V176.7c0-13.3 15.3-20.8 25.8-12.6l101.9 79.3c8.2 6.4 8.2 18.9 0 25.3z"/>
+  </symbol>
+  <symbol id="svg__text-align-left" viewBox="0 0 448 512">
+    <path d="M288 64c0 17.7-14.3 32-32 32H32C14.3 96 0 81.7 0 64S14.3 32 32 32H256c17.7 0 32 14.3 32 32zm0 256c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H256c17.7 0 32 14.3 32 32zM0 192c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 448c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/>
+  </symbol>
+  <symbol id="svg__text-align-center" viewBox="0 0 448 512">
+    <path d="M352 64c0-17.7-14.3-32-32-32H128c-17.7 0-32 14.3-32 32s14.3 32 32 32H320c17.7 0 32-14.3 32-32zm96 128c0-17.7-14.3-32-32-32H32c-17.7 0-32 14.3-32 32s14.3 32 32 32H416c17.7 0 32-14.3 32-32zM0 448c0 17.7 14.3 32 32 32H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H32c-17.7 0-32 14.3-32 32zM352 320c0-17.7-14.3-32-32-32H128c-17.7 0-32 14.3-32 32s14.3 32 32 32H320c17.7 0 32-14.3 32-32z"/>
+  </symbol>
+  <symbol id="svg__page-plus" viewBox="0 0 576 512">
+    <path d="M0 64C0 28.7 28.7 0 64 0H224V128c0 17.7 14.3 32 32 32H384v38.6C310.1 219.5 256 287.4 256 368c0 59.1 29.1 111.3 73.7 143.3c-3.2 .5-6.4 .7-9.7 .7H64c-35.3 0-64-28.7-64-64V64zm384 64H256V0L384 128zm48 96a144 144 0 1 1 0 288 144 144 0 1 1 0-288zm16 80c0-8.8-7.2-16-16-16s-16 7.2-16 16v48H368c-8.8 0-16 7.2-16 16s7.2 16 16 16h48v48c0 8.8 7.2 16 16 16s16-7.2 16-16V384h48c8.8 0 16-7.2 16-16s-7.2-16-16-16H448V304z"/>
+  </symbol>
+  <symbol id="svg__page-cross" viewBox="0 0 576 512">
+   <path d="M0 64C0 28.7 28.7 0 64 0H224V128c0 17.7 14.3 32 32 32H384v38.6C310.1 219.5 256 287.4 256 368c0 59.1 29.1 111.3 73.7 143.3c-3.2 .5-6.4 .7-9.7 .7H64c-35.3 0-64-28.7-64-64V64zm384 64H256V0L384 128zm48 96a144 144 0 1 1 0 288 144 144 0 1 1 0-288zm59.3 107.3c6.2-6.2 6.2-16.4 0-22.6s-16.4-6.2-22.6 0L432 345.4l-36.7-36.7c-6.2-6.2-16.4-6.2-22.6 0s-6.2 16.4 0 22.6L409.4 368l-36.7 36.7c-6.2 6.2-6.2 16.4 0 22.6s16.4 6.2 22.6 0L432 390.6l36.7 36.7c6.2 6.2 16.4 6.2 22.6 0s6.2-16.4 0-22.6L454.6 368l36.7-36.7z"/>
+  </symbol>
+  <symbol id="svg__eye" viewBox="0 0 576 512">
+    <path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM144 256a144 144 0 1 1 288 0 144 144 0 1 1 -288 0zm144-64c0 35.3-28.7 64-64 64c-7.1 0-13.9-1.2-20.3-3.3c-5.5-1.8-11.9 1.6-11.7 7.4c.3 6.9 1.3 13.8 3.2 20.7c13.7 51.2 66.4 81.6 117.6 67.9s81.6-66.4 67.9-117.6c-11.1-41.5-47.8-69.4-88.6-71.1c-5.8-.2-9.2 6.1-7.4 11.7c2.1 6.4 3.3 13.2 3.3 20.3z"/>
+  </symbol>
+</svg>
